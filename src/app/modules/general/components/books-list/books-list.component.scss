@@ -1,0 +1,51 @@
+.expand:hover {
+  transform: scale(1.1);
+}
+
+::ng-deep .books_list .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  background-color: #4B5563;
+  color: white;
+}
+
+::ng-deep .books_list .ant-select-arrow {
+  color: white;
+}
+
+.cardStyle {
+  min-height: 400px;
+  max-height: 400px;
+  border: 1px solid var(--neutral-5, #D9D9D9);
+  border-radius: 12px;
+}
+
+.gridColumns {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  @media (min-width: 736px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    @media (min-width: 1350px) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+}
+
+.maxHeigthNone {
+  @media (max-width: 768px) {
+    max-height: none!important;
+  }
+}
+
+.gridColsPagination {
+  grid-column: span 1 / span 1;
+  @media (min-width: 736px) {
+    grid-column: span 2 / span 2;
+    @media (min-width: 1350px) {
+      grid-column: span 3 / span 3;
+    }
+  }
+}
+
+input {
+  border-radius: 8px;
+  border: 1px solid #4B5563;
+  color: #4B5563;
+}

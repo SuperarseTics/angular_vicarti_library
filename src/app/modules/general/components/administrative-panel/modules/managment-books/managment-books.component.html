@@ -1,0 +1,63 @@
+<div class="flex flex-col gap-2 lg:w-[60%] md:w-[75%] sm:w-[90%] w-full p-5 rounded-lg bg-white overflow-y-auto">
+  <div class="flex flex-col gap-2 pr-5 pb-5" [ngStyle]="{'max-height': max_height+'px'}">
+    <span class="text-2xl font-medium w-full text-center">{{ type == 'edit' ? 'Actualizar libro' : type == 'new' ? 'Agregar nuevo libro' : 'Eliminar libro'}}</span>
+    <div class="flex flex-col">
+      <span>Código del Libro</span>
+      <input nz-input class="rounded-lg" placeholder="Ingresa el código del libro" [(ngModel)]="book.code" type="text"/>
+    </div>
+    <ng-container *ngIf="type == 'edit'">
+      <!-- <nz-spin nzTip="Loading..." class="rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer expand w-full text-center text-white">
+      </nz-spin> -->
+      <div (click)="getBook()" class="rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer expand w-full flex items-center justify-center text-center text-white">
+        <span *ngIf="!loadingSearch">Buscar</span>
+        <span *ngIf="loadingSearch">Buscando.. <span nz-icon [nzType]="'loading'"></span></span>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="type != 'delete'">
+      <div class="flex flex-col">
+        <span>Título</span>
+        <input nz-input class="rounded-lg" placeholder="Ingresa el título del libro" [(ngModel)]="book.title" type="text"/>
+      </div>
+      <div class="flex flex-col">
+        <span>Categoría</span>
+        <!-- <input nz-input class="rounded-lg" placeholder="Ingresa la categoría del libro" [(ngModel)]="book.category" type="text"/> -->
+        <nz-select [(ngModel)]="book.category">
+          <nz-option *ngFor="let item of catregories" [nzValue]="item.id" [nzLabel]="item.title"></nz-option>
+        </nz-select>
+      </div>
+      <div class="flex flex-col">
+        <span>Año</span>
+        <input nz-input class="rounded-lg" placeholder="Ingresa el año de publicación" [(ngModel)]="book.publication" type="text"/>
+      </div>
+      <div class="flex flex-col">
+        <span>Autor</span>
+        <input nz-input class="rounded-lg" placeholder="Ingresa el autor del libro" [(ngModel)]="book.author" type="text"/>
+      </div>
+      <div class="flex flex-col">
+        <span>Edición</span>
+        <input nz-input class="rounded-lg" placeholder="Ingresa el autor del libro" [(ngModel)]="book.edition" type="text"/>
+      </div>
+      <div class="flex flex-col">
+        <span>Sinopsis</span>
+        <textarea [nzAutosize]="{ minRows: 2, maxRows: 2 }" rows="2" nz-input class="rounded-lg" [(ngModel)]="book.synopsis" placeholder="Ingresa la sinopsis del libro"></textarea>
+      </div>
+      <div class="flex flex-col">
+        <span>Stock</span>
+        <input nz-input class="rounded-lg" type="number" [(ngModel)]="book.stock"/>
+      </div>
+      <div class="flex flex-col">
+        <span>Estado</span>
+        <nz-switch [(ngModel)]="book.status_boolean" nzCheckedChildren="Activo" nzUnCheckedChildren="Inactivo"></nz-switch>
+      </div>
+      <div class="flex flex-col">
+        <span>Portada</span>
+        <input accept=".png, .jpg, .jpeg" nz-input class="rounded-lg" (change)="fileBrowseHandler($event.target)" type="file"/>
+      </div>
+    </ng-container>
+    <div (click)="save()"  class="rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer expand w-full text-center text-white">
+      <span *ngIf="!loadignSave">{{ type == 'edit' ? 'Actualizar' : type == 'new' ? 'Enviar' : 'Eliminar' }}</span>
+      <span *ngIf="loadignSave">{{ type == 'edit' ? 'Actualizando...' : type == 'new' ? 'Enviando...' : 'Eliminando...' }}</span>
+    </div>
+    <br>
+  </div>
+</div>

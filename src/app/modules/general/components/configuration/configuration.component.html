@@ -1,0 +1,68 @@
+<div class="flex flex-col py-5 gap-5 w-full h-full books_list" [style.opacity]="!loading ? 1 : 0.2">
+  <div class="flex flex-col items-start w-full">
+    <span class="text-2xl font-medium">Configuración</span>
+    <div class="flex items-center gap-2 text-secondary-55">
+      <span>Inicio</span>
+      <span> > </span>
+      <span class="font-semibold">Configuración</span>
+    </div>
+  </div>
+  <hr style="width: 100%; margin: 5px 0px; opacity: 0.35;">
+
+  <div class="overflow-y-auto pb-2.5">
+    <div class="grid md:grid-cols-2 grid-cols-1 gap-5 pr-5" [ngStyle]="{'max-height': max_height+'px'}">
+      <div class="flex flex-col gap-5 w-full">
+        <div class="flex flex-col gap-3 w-full p-5 rounded-lg bg-white">
+          <span class="text-2xl font-medium w-full text-center">Sistema</span>
+          <div class="flex w-full items-center justify-between">
+            <span>Días de alquiler</span>
+            <input nz-input class="rounded-lg w-fit max-w-[100px]" [(ngModel)]="system.max_loan_days" type="number"/>
+          </div>
+          <div class="flex w-full items-center justify-between">
+            <span>Libros en alquiler</span>
+            <input nz-input class="rounded-lg w-fit max-w-[100px]" [(ngModel)]="system.max_loan_books" type="number"/>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-3 w-full p-5 rounded-lg bg-white">
+          <span class="text-2xl font-medium w-full text-center">Notificaciones</span>
+          <div class="flex flex-col w-full items-start">
+            <span>Notificaciones de reservas retrasadas</span>
+            <input nz-input class="rounded-lg w-full" [(ngModel)]="notifications.email" type="text"/>
+          </div>
+          <div class="flex flex-col w-full items-start">
+            <span>Días de anticipación para notificar</span>
+            <input nz-input class="rounded-lg w-fit max-w-[100px]" [(ngModel)]="notifications.days_advance" type="number"/>
+          </div>
+          <div class="flex flex-col w-full items-start">
+            <span>Notificar en el ultimo día de entrega</span>
+            <nz-select class="w-[100px] max-w-[100px]" [(ngModel)]="notifications.last_day">
+              <nz-option [nzValue]="true" nzLabel="Si"></nz-option>
+              <nz-option [nzValue]="false" nzLabel="No"></nz-option>
+            </nz-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-5 w-full justify-between">
+        <div class="flex flex-col gap-3 w-full p-5 rounded-lg bg-white">
+          <span class="text-2xl font-medium w-full text-center">Reglamento</span>
+          <span>Describe las reglas que seran mostradas al reservar un libro.</span>
+          <input nz-input class="rounded-lg w-full" [(ngModel)]="rules[0]" type="text" placeholder="Regla #1"/>
+          <input nz-input class="rounded-lg w-full" [(ngModel)]="rules[1]" type="text" placeholder="Regla #2"/>
+          <input nz-input class="rounded-lg w-full" [(ngModel)]="rules[2]" type="text" placeholder="Regla #3"/>
+          <input nz-input class="rounded-lg w-full" [(ngModel)]="rules[3]" type="text" placeholder="Regla #4"/>
+          <input nz-input class="rounded-lg w-full" [(ngModel)]="rules[4]" type="text" placeholder="Regla #5"/>
+          <input nz-input class="rounded-lg w-full" [(ngModel)]="rules[5]" type="text" placeholder="Regla #6"/>
+        </div>
+        <div class="rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer expand w-full text-center text-white" (click)="save()">
+          <span *ngIf="!loadingSave">Guardar</span>
+          <span *ngIf="loadingSave">Guardando.. <span nz-icon [nzType]="'loading'"></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<app-loading-page *ngIf="loading" class="centradoLoadding flex items-center justify-center w-full h-full"></app-loading-page>

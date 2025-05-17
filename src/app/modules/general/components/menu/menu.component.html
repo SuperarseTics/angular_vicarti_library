@@ -1,0 +1,8 @@
+<div class="flex flex-col gap-3 w-full">
+  <ng-container *ngFor="let menu of menu_items">
+    <div *ngIf="menu.show" class="flex items-center gap-1 text-lg cursor-pointer" (click)="showMenu(menu.route)">
+      <i [class]='menu.icon'></i>
+      <span> {{ menu.title }} </span>
+    </div>
+  </ng-container>
+</div>

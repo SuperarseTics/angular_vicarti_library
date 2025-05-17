@@ -1,0 +1,74 @@
+<div class="flex flex-col py-5 gap-5 w-full h-full books_list">
+  <div class="flex flex-col py-5 gap-5 w-full h-full" [style.opacity]="!loading ? 1 : 0.2">
+    <span class="w-full text-2xl text-center font-medium">Biblioteca</span>
+    <div class="flex flex-wrap sm:gap-0 gap-3 w-full items-center justify-between">
+      <div class="flex flex-col md:w-1/4 sm:w-1/2 w-full">
+        <span>Libro</span>
+        <input type="text" nz-input [(ngModel)]="filters.f_title" nzSize="default"/>
+      </div>
+      <div class="flex flex-col md:w-1/4 sm:w-1/2 w-full">
+        <span>Año de publicación</span>
+        <nz-select class="text-white" [(ngModel)]="filters.f_publication">
+          <nz-option nzValue="" nzLabel="Todos"></nz-option>
+          <nz-option *ngFor="let item of filterSelect.publication" [nzValue]="item" [nzLabel]="item"></nz-option>
+        </nz-select>
+      </div>
+      <div class="flex flex-col md:w-1/4 sm:w-1/2 w-full">
+        <span>Categoría</span>
+        <nz-select class="text-white" [(ngModel)]="filters.f_category">
+          <nz-option nzValue="" nzLabel="Todas"></nz-option>
+          <nz-option *ngFor="let item of filterSelect.categories" [nzValue]="item" [nzLabel]="item"></nz-option>
+        </nz-select>
+      </div>
+
+      <div class="flex items-center justify-center md:w-1/4 sm:w-1/2 w-full">
+        <span (click)="getBookList()" class="rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer expand w-fit text-white">
+          Filtrar
+        </span>
+      </div>
+    </div>
+
+    <ng-container *ngIf="book_list.length > 0; else emptyState">
+      <div class="overflow-y-auto pb-2.5">
+        <div class="grid gridColumns gap-3 md:pr-5 maxHeigthNone relative" [ngStyle]="{'max-height': max_height+'px'}">
+          <ng-container *ngFor="let book of book_list">
+            <div class="flex flex-col cardStyle">
+              <div class="flex items-center justify-center w-full max-h-[45%] min-h-[45%]">
+                <img class="w-full h-full object-cover" [src]="book.cover" alt="">
+              </div>
+              <div class="flex flex-col p-3 w-full max-h-[55%] min-h-[55%]">
+                <span class="font-medium">Titulo: {{ book.title }}</span>
+                <span>Codigo: {{ book.code }}</span>
+                <span>Autor: {{ book.author }}</span>
+                <span>Año de publicación: {{ book.publication }}</span>
+                <span>Categoría: {{ book.category }}</span>
+                <span>Edición: {{ book.edition }}</span>
+                <span>Stock: {{ book.stock }}</span>
+                <span class="py-1">{{ book.synopsis }}</span>
+              </div>
+            </div>
+          </ng-container>
+          <div class="flex w-full justify-center items-center gap-3 pt-2 gridColsPagination">
+            <span [ngClass]="{'expand': !blockPrevPage}" class="rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer w-fit text-center text-white" (click)="managmentPages('prev')" [style.opacity]="!blockPrevPage ? 1 : 0.2">Anterior</span>
+            <span [ngClass]="{'expand': !blockNextPage}" class="rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer w-fit text-center text-white" (click)="managmentPages('next')" [style.opacity]="!blockNextPage ? 1 : 0.2">Siguiente</span>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #emptyState>
+      <div class="flex items-center justify-center w-full h-full">
+        <app-empty-states [empty]="{
+          title: 'Lista de libros',
+          style_title: '',
+          type: 'icon',
+          src: 'bx bxs-message-alt-error',
+          style_image_icon: 'font-size: 150px;',
+          text: 'No hay datos a mostrar',
+          style_text: ''
+        }"></app-empty-states>
+      </div>
+    </ng-template>
+  </div>
+
+  <app-loading-page *ngIf="loading" class="centradoLoadding flex items-center justify-center w-full h-full"></app-loading-page>
+</div>

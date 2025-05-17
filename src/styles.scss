@@ -1,0 +1,69 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "~ng-zorro-antd/ng-zorro-antd.min.css";
+
+.ant-modal-content {
+  border-radius: 20px !important;
+}
+
+.ant-modal-header {
+  border-radius: 20px 20px 0 0 !important;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.ant-drawer-bottom .ant-drawer-content-wrapper, .ant-drawer-top .ant-drawer-content-wrapper {
+  width: 100% !important;
+}
+
+.breakWordsParagraph {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  // width: 100%;
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 16px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #a7a6a6;
+  border-radius: 16px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #a7a6a6;
+  background: #8d8d8d;
+}
+.ant-drawer-header{
+  padding: 0;
+}
+
+.centradoLoadding {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.contenedorDiv {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}

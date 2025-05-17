@@ -1,0 +1,99 @@
+<div class="flex flex-col py-5 gap-5 w-full h-full" [style.opacity]="!loading ? 1 : 0.2">
+  <span class="w-full text-2xl text-center font-medium">Reportes del Sistema</span>
+  <!-- <div class="flex flex-col items-start w-full">
+    <span class="text-2xl font-medium">Reportes del Sistema</span>
+    <div class="flex items-center gap-2 text-secondary-55">
+      <span>Inicio</span>
+      <span> > </span>
+      <span class="font-semibold">Reportes del Sistema</span>
+    </div>
+  </div> -->
+  <div class="overflow-y-auto overflow-x-hidden md:pr-5">
+    <div class="flex flex-col gap-5 w-full maxHeigthNone" [ngStyle]="{'max-height': max_height+'px'}">
+      <div class="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-5">
+        <div class="flex flex-col items-center justify-center gap-1 cardStyle">
+          <span class="text-center text-xl font-medium">{{ report_cards.books.title }}</span>
+          <span class="text-[#0894b6] text-3xl font-semibold">{{ report_cards.books.amount }}</span>
+        </div>
+        <div class="flex flex-col items-center justify-center gap-1 cardStyle">
+          <span class="text-center text-xl font-medium">{{ report_cards.categories.title }}</span>
+          <span class="text-[#0894b6] text-3xl font-semibold">{{ report_cards.categories.amount }}</span>
+        </div>
+        <div class="flex flex-col items-center justify-center gap-1 cardStyle">
+          <span class="text-center text-xl font-medium">{{ report_cards.reservations.title }}</span>
+          <span class="text-[#0894b6] text-3xl font-semibold">{{ report_cards.reservations.amount }}</span>
+        </div>
+        <div class="flex flex-col items-center justify-center gap-1 cardStyle">
+          <span class="text-center text-xl font-medium">{{ report_cards.returns.title }}</span>
+          <span class="text-[#0894b6] text-3xl font-semibold">{{ report_cards.returns.amount }}</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3 w-full items-center justify-center cardStyleChart pt-5">
+        <span class="text-2xl font-medium w-full text-left pl-5">Cantidad de libros por categoría</span>
+        <ng-container *ngIf="dataPie.length > 0; else emptyState_circle">
+          <div echarts class="w-full h-[400px]" [options]="optionCirleChart"></div>
+        </ng-container>
+        <ng-template #emptyState_circle>
+          <div class="flex items-center justify-center w-full h-full">
+            <app-empty-states [empty]="{
+              title: 'Cantidad de libros por categoría',
+              style_title: 'display: none;',
+              type: 'icon',
+              src: 'bx bx-line-chart',
+              style_image_icon: 'font-size: 100px;',
+              text: 'No hay datos a mostrar',
+              style_text: ''
+            }"></app-empty-states>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="flex flex-col gap-3 w-full items-center justify-center cardStyleChart pt-5">
+        <span class="text-2xl font-medium w-full text-left pl-5">Top de libros más reservados</span>
+        <ng-container *ngIf="dataTopReservations.length > 0; else emptyState_topreservation">
+          <div class="w-full overflow-x-auto">
+            <div echarts class="w-full h-[500px] min-w-[600px]" [options]="topReservationBooksChart"></div>
+          </div>
+        </ng-container>
+        <ng-template #emptyState_topreservation>
+          <div class="flex items-center justify-center w-full h-full">
+            <app-empty-states [empty]="{
+              title: 'Top de libros mas reservados',
+              style_title: 'display: none;',
+              type: 'icon',
+              src: 'bx bx-line-chart',
+              style_image_icon: 'font-size: 100px;',
+              text: 'No hay datos a mostrar',
+              style_text: ''
+            }"></app-empty-states>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="flex flex-col gap-3 w-full items-center justify-center cardStyleChart pt-5">
+        <span class="text-2xl font-medium w-full text-left pl-5">Reservaciones por mes</span>
+        <ng-container *ngIf="dataReservationsPerMonth.length > 0; else emptyState_reservationmonth">
+          <div class="w-full overflow-x-auto">
+            <div echarts class="w-full h-[500px] min-w-[600px]" [options]="reservationPerMonthChart"></div>
+          </div>
+        </ng-container>
+        <ng-template #emptyState_reservationmonth>
+          <div class="flex items-center justify-center w-full h-full">
+            <app-empty-states [empty]="{
+              title: 'Reservaciones por mes',
+              style_title: 'display: none;',
+              type: 'icon',
+              src: 'bx bx-line-chart',
+              style_image_icon: 'font-size: 100px;',
+              text: 'No hay datos a mostrar',
+              style_text: ''
+            }"></app-empty-states>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-loading-page *ngIf="loading" class="centradoLoadding flex items-center justify-center w-full h-full"></app-loading-page>

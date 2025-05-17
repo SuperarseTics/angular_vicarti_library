@@ -1,0 +1,51 @@
+<div class="flex items-center justify-center w-full h-full bg-[#D1D5DB]">
+  <div [id]="id_conteiner" class="grid grid-cols-4 borderConteiner">
+    <div class="lg:flex hidden flex-col bg-[#0891B2] items-center justify-between text-white rounded-l-xl">
+      <div class="flex flex-col gap-10 w-full px-10">
+        <div class="flex flex-col gap-3">
+          <i class='bx bx-user-circle font-medium text-[150px] text-center'></i>
+          <span class="font-medium text-center text-xl">Bienvenido {{ user ? user.name : "" }}</span>
+        </div>
+        <app-menu [menu_items]="menu_items" (selectMenu)="selectMenu($event)"></app-menu>
+      </div>
+      <div class="flex items-center w-full p-4 bg-[#0E7490] rounded-bl-xl cursor-pointer" (click)="closeSession()">
+        <span class="">Cerrar sesion</span>
+      </div>
+    </div>
+
+    <div class="flex relative lg:col-span-3 col-span-4 flex-col gap-12 items-center w-full px-10 bg-[#F3F4F6] md:rounded-r-xl lg:rounded-xl md:rounded-l-none">
+      <div (click)="managmentDrawer(true)" class="lg:hidden centradoTexto flex w-fit px-1.5 rounded-lg cursor-pointer border border-[#d9d9d9] border-solid">
+        <i class='bx bx-menu text-lg'></i>
+      </div>
+      <app-books-list class="w-full" [max_height]="getHeight()" *ngIf="select_menu == 'home'"></app-books-list>
+      <app-reservations class="w-full" *ngIf="select_menu == 'reservations'"></app-reservations>
+      <app-reports class="w-full" [max_height]="getHeightReports()" *ngIf="select_menu == 'reports'"></app-reports>
+      <app-administrative-panel [max_height]="getHeightManagmentBooks()" [max_height_menu]="getHeightAdministrative()" class="w-full" *ngIf="select_menu == 'administrative_panel'"></app-administrative-panel>
+      <app-configuration [max_height]="getHeightConfiguration()" class="w-full" *ngIf="select_menu == 'configuration'"></app-configuration>
+    </div>
+  </div>
+</div>
+
+<nz-drawer [nzTitle]="drawerTitle" [nzBodyStyle]="{ 'background-color': '#0891B2' }" [nzClosable]="false" [nzVisible]="show_drawer" nzPlacement="right" (nzOnClose)="managmentDrawer(false)">
+  <ng-container *nzDrawerContent>
+    <!-- <app-menu [menu_items]="menu_items" (selectMenu)="selectMenu($event)"></app-menu> -->
+    <div class="flex flex-col h-full items-center justify-between text-white">
+      <div class="flex flex-col gap-10 w-full">
+        <div class="flex flex-col gap-3">
+          <i class='bx bx-user-circle font-medium text-[150px] text-center'></i>
+          <span class="font-medium text-center text-xl">Bienvenido {{ user ? user.name : "" }}</span>
+        </div>
+        <app-menu [menu_items]="menu_items" (selectMenu)="selectMenu($event)"></app-menu>
+      </div>
+      <div class="flex items-center w-full p-4 bg-[#0E7490] rounded-xl" (click)="closeSession()">
+        <span class="">Cerrar sesion</span>
+      </div>
+    </div>
+  </ng-container>
+</nz-drawer>
+<ng-template #drawerTitle>
+  <div class="w-full flex justify-between items-center text-base bg-[#0891B2] text-white" style="padding: 16px 24px;">
+    <span class="font-medium">Menu</span>
+    <span nz-icon nzType="close" nzTheme="outline" class="cursor-pointer" (click)="managmentDrawer(false)"></span>
+  </div>
+</ng-template>

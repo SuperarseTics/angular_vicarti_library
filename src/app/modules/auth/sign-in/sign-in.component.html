@@ -1,0 +1,28 @@
+<div class="flex items-center justify-center w-full h-full bg-[#D1D5DB]">
+  <div class="grid md:grid-cols-2 grid-cols-1 lg:w-[70%] w-[90%] h-[80%]">
+    <div class="md:flex hidden flex-col bg-[#06B6D4] gap-5 px-10 items-center justify-center text-white rounded-l-xl">
+      <span class="font-medium text-center text-3xl">Bienvenido a la biblioteca</span>
+      <span class="text-lg text-center">Explora el conocimiento y encuentra tus libros favoritos</span>
+    </div>
+
+    <div class="flex flex-col gap-12 items-center justify-center px-10 bg-[#F3F4F6] md:rounded-r-xl rounded-xl md:rounded-l-none">
+      <img class="object-contain" style="max-width: 80%; min-width: 80%;" src="assets/logo/logo_superarse.png" alt="">
+      <div class="flex flex-col w-full gap-5">
+        <nz-alert class="rounded-lg" *ngIf="alert.content !== ''" [nzType]="alert.type" [nzMessage]="alert.content" nzShowIcon></nz-alert>
+        <div class="flex flex-col w-full gap-1">
+          <span class="font-bold text-[#3196B5]">Correo eléctronico</span>
+          <input class="rounded-lg" nz-input placeholder="Correo eléctronico" [(ngModel)]="login.email" type="email" (ngModelChange)="restartAlert()"/>
+        </div>
+        <div class="flex flex-col w-full gap-1">
+          <span class="font-bold text-[#3196B5]">Contraseña</span>
+          <input class="rounded-lg" nz-input placeholder="Contraseña" [(ngModel)]="login.password" type="password" (ngModelChange)="restartAlert()"/>
+        </div>
+
+        <div class="flex w-full items-center justify-center">
+          <span *ngIf="!loading" (click)="signIn()" class="rounded-lg py-2 px-4 bg-[#06B6D4] cursor-pointer expand w-fit font-semibold text-white">Ingresar</span>
+          <span *ngIf="loading" class="rounded-lg py-2 px-4 bg-[#06B6D4] w-fit font-semibold text-white">Ingresando...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

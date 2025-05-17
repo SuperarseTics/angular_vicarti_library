@@ -1,0 +1,7 @@
+.expand:hover {
+  transform: scale(1.1);
+}
+
+::ng-deep .ant-alert {
+  border-radius: 12px;
+}

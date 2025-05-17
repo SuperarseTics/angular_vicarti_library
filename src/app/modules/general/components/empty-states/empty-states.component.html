@@ -1,0 +1,10 @@
+<div class="flex flex-col gap-3 w-full items-center justify-center h-full opacity-70">
+  <span [style]="empty.style_title" class="font-medium text-3xl text-center"> {{ empty.title }} </span>
+  <ng-container *ngIf="empty.type == 'image'; else icon">
+    <img [style]="empty.style_image_icon" class="object-contain" [src]="empty.src" alt="">
+  </ng-container>
+  <ng-template #icon>
+    <i [style]="empty.style_image_icon" [class]="empty.src" ></i>
+  </ng-template>
+  <span [style]="empty.style_text" class="font-medium text-base text-center"> {{ empty.text }} </span>
+</div>

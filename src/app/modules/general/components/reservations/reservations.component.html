@@ -1,0 +1,99 @@
+<div class="flex flex-col py-5 gap-5 w-full h-full books_list">
+  <div class="flex flex-col items-start w-full">
+    <span class="text-2xl font-medium">{{ title }}</span>
+    <div class="flex items-center gap-2 text-secondary-55">
+      <span (click)="selectOptionMenu(breadcrum.from)" [ngClass]="{'cursor-pointer': breadcrum.from != 'Inicio'}">{{ breadcrum.from }}</span>
+      <span> > </span>
+      <span class="font-semibold">{{ breadcrum.to }}</span>
+    </div>
+  </div>
+
+  <div class="grid sm:grid-cols-2 grid-cols-1 w-full gap-5" *ngIf="title == 'Panel de reservas'">
+    <ng-container *ngFor="let item of menu">
+      <div class="flex flex-col items-center gap-3 justify-center selectionMenu" (click)="selectOptionMenu(item.title)">
+        <div class="flex w-[100px] h-[100px] items-center justify-center rounded-full bg-[#FFC857]">
+          <img class="object-contain w-[80%] h-[80%]" [src]="item.image" alt="">
+        </div>
+        <span class="text-xl font-semibold text-[#FFC857]"> {{ item.title }} </span>
+        <span class="text-white px-5"> {{ item.description }} </span>
+      </div>
+    </ng-container>
+  </div>
+
+  <ng-container *ngIf="title != 'Panel de reservas'">
+    <hr style="width: 100%; margin: 5px 0px; opacity: 0.35;">
+    <div class="flex justify-center items-center w-full" *ngIf="title == 'Reservar'">
+      <div class="flex flex-col gap-2 lg:w-[60%] md:w-[75%] sm:w-[90%] w-full p-5 rounded-lg bg-white">
+        <span class="text-2xl font-medium w-full text-center">Solicitar reserva</span>
+        <div class="flex flex-col">
+          <span>Libro</span>
+          <input nz-input class="rounded-lg" placeholder="Ingresa el codigo del libro" [(ngModel)]="reservation.book_code" type="text"/>
+        </div>
+        <div class="flex flex-col">
+          <span>Fecha para retirar</span>
+          <nz-date-picker class="rounded-lg" nzPlaceHolder="mm/dd/yyyy" nzFormat="MM/dd/YYYY" [(ngModel)]="reservation.pickup_date"></nz-date-picker>
+        </div>
+        <!-- <div class="flex flex-col">
+          <span>Fecha para entregar</span>
+          <nz-date-picker class="rounded-lg" nzPlaceHolder="mm/dd/yyyy" nzFormat="MM/dd/YYYY" [(ngModel)]="reservation.delivery_date"></nz-date-picker>
+        </div> -->
+        <label nz-checkbox [(ngModel)]="reservation.regulation_check" (click)="openRules()">Acepto el reglamento</label>
+        <div *ngIf="reservation.regulation_check" (click)="save()" class="rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer expand w-full text-center text-white">
+          <span *ngIf="!loadingSave">Enviar</span>
+          <span *ngIf="loadingSave">Enviando.. <span nz-icon [nzType]="'loading'"></span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col justify-center items-center w-full p-5 rounded-lg bg-white" *ngIf="title == 'Historial'" [style.opacity]="!loading ? 1 : 0.2">
+      <span class="text-2xl pb-2 font-medium w-full text-center">Historial de reservas</span>
+      <ng-container *ngIf="history_list.length > 0; else emptyState">
+        <div class="overflow-x-auto w-full">
+          <div class="tableWith">
+            <div class="grid w-full items-center py-2 bg-[#0891B2] rounded-t-lg" [style]="styleGridTable">
+              <span class="titlesTable">CÓDIGO</span>
+              <span class="titlesTable">TÍTULO DEL LIBRO</span>
+              <span class="titlesTable">CÓDIGO DEL LIBRO</span>
+              <span class="titlesTable">CATEGORÍA DEL LIBRO</span>
+              <span class="titlesTable">FECHA DE RESERVA</span>
+              <span class="titlesTable">FECHA DE ENTREGA</span>
+              <span class="titlesTable">FECHA DE DEVOLUCIÓN</span>
+              <span class="titlesTable">ESTADO</span>
+            </div>
+            <ng-container *ngFor="let history of history_list; let inx = index">
+              <div class="grid w-full items-center py-2 borderRow" [ngClass]="{'rounded-b-lg': inx == (history_list.length-1)}" [style]="styleGridTable">
+                <span class="text-center">{{ history.booking_code }}</span>
+                <span class="text-center">{{ history.book_title }}</span>
+                <span class="text-center">{{ history.book_code }}</span>
+                <span class="text-center">{{ history.book_category }}</span>
+                <span class="text-center">{{ history.booking_date != '-' ? constantService.formatDate(history.booking_date) : history.booking_date }}</span>
+                <span class="text-center">{{ history.delivery_date != '-' ? constantService.formatDate(history.delivery_date) : history.delivery_date }}</span>
+                <span class="text-center">{{ history.giveback_date != '-' ? constantService.formatDate(history.giveback_date) : history.giveback_date }}</span>
+                <span class="text-center">{{ history.status }}</span>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="flex w-full justify-between pt-2">
+          <span [ngClass]="{'expand': !blockPrevPage}" class="rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer w-fit text-center text-white" (click)="managmentPages('prev')" [style.opacity]="!blockPrevPage ? 1 : 0.2">Anterior</span>
+          <span [ngClass]="{'expand': !blockNextPage}" class="rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer w-fit text-center text-white" (click)="managmentPages('next')" [style.opacity]="!blockNextPage ? 1 : 0.2">Siguiente</span>
+        </div>
+      </ng-container>
+      <ng-template #emptyState>
+        <div class="flex items-center justify-center w-full h-full">
+          <app-empty-states [empty]="{
+            title: '',
+            style_title: 'display: none;',
+            type: 'icon',
+            src: 'bx bxs-message-alt-error',
+            style_image_icon: 'font-size: 150px;',
+            text: 'No hay datos a mostrar',
+            style_text: ''
+          }"></app-empty-states>
+        </div>
+      </ng-template>
+    </div>
+
+    <app-loading-page *ngIf="loading && title == 'Historial'" class="centradoLoadding flex items-center justify-center w-full h-full"></app-loading-page>
+  </ng-container>
+</div>

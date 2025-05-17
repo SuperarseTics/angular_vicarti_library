@@ -1,0 +1,61 @@
+<div class="flex flex-col gap-2 lg:w-[60%] md:w-[75%] sm:w-[90%] w-full p-5 rounded-lg bg-white overflow-y-auto" [style.opacity]="!loading ? 1 : 0.2">
+  <div class="flex flex-col gap-2 pr-5 pb-5" [ngStyle]="{'max-height': max_height+'px'}">
+    <span class="text-2xl font-medium w-full text-center">{{ title }}</span>
+    <ng-container *ngIf="title != 'Gestión de categorías'; else tableCategories">
+      <div class="flex flex-col">
+        <span>Título de la categoría</span>
+        <input nz-input class="rounded-lg" placeholder="Ingresa el título de la categoría" [(ngModel)]="categorie.title" type="text"/>
+      </div>
+      <div class="flex flex-col">
+        <span>Estado de la categoría</span>
+        <nz-switch [(ngModel)]="categorie.status" nzCheckedChildren="Activa" nzUnCheckedChildren="Inactiva"></nz-switch>
+      </div>
+      <div (click)="save()" class="rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer expand w-full flex items-center justify-center text-center text-white">
+        <span *ngIf="!loadingSearch">Guardar</span>
+        <span *ngIf="loadingSearch">Guardando.. <span nz-icon [nzType]="'loading'"></span></span>
+      </div>
+    </ng-container>
+    <ng-template #tableCategories>
+      <ng-container *ngIf="catregories.length > 0; else emptyState">
+        <div class="overflow-x-auto w-full">
+          <div class="tableWith">
+            <div class="grid w-full items-center py-2 bg-[#0891B2] rounded-t-lg" [style]="styleGridTable">
+              <span class="titlesTable">TÍTULO</span>
+              <span class="titlesTable">ESTADO</span>
+              <span class="titlesTable">ACCIONES</span>
+            </div>
+            <ng-container *ngFor="let category of catregories; let inx = index">
+              <div class="grid w-full items-center py-2 borderRow" [ngClass]="{'rounded-b-lg': inx == (catregories.length-1)}" [style]="styleGridTable">
+                <span class="text-center">{{ category.title }}</span>
+                <span class="text-center">{{ category.status }}</span>
+                <div class="flex items-center justify-center gap-2">
+                  <i *ngIf="!category.deleted" class='bx bx-edit-alt text-primary-6 cursor-pointer' (click)="editCategory(category)"></i>
+                  <i *ngIf="!category.deleted" class='bx bx-trash text-red-500 cursor-pointer' (click)="deleteCategory(category)"></i>
+                  <span *ngIf="category.deleted" nz-icon [nzType]="'loading'" class="text-red-500"></span>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="flex w-full justify-center items-center gap-3 pt-2">
+          <span [ngClass]="{'expand': !blockPrevPage}" class="rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer w-fit text-center text-white" (click)="managmentPages('prev')" [style.opacity]="!blockPrevPage ? 1 : 0.2">Anterior</span>
+          <span [ngClass]="{'expand': !blockNextPage}" class="rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer w-fit text-center text-white" (click)="managmentPages('next')" [style.opacity]="!blockNextPage ? 1 : 0.2">Siguiente</span>
+        </div>
+      </ng-container>
+      <ng-template #emptyState>
+        <div class="flex items-center justify-center w-full h-full">
+          <app-empty-states [empty]="{
+            title: '',
+            style_title: 'display: none;',
+            type: 'icon',
+            src: 'bx bxs-message-alt-error',
+            style_image_icon: 'font-size: 150px;',
+            text: 'No hay datos a mostrar',
+            style_text: ''
+          }"></app-empty-states>
+        </div>
+      </ng-template>
+    </ng-template>
+  </div>
+</div>
+<app-loading-page *ngIf="loading" class="centradoLoadding flex items-center justify-center w-full h-full"></app-loading-page>

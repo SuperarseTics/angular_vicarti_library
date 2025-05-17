@@ -1,0 +1,45 @@
+<div class="flex flex-col py-5 gap-5 w-full h-full">
+  <div class="flex flex-col items-start w-full">
+    <span class="text-2xl font-medium">{{ title }}</span>
+    <div class="flex items-center gap-2 text-secondary-55">
+      <span (click)="selectOptionMenu(breadcrum.from)" [ngClass]="{'cursor-pointer': breadcrum.from != 'Inicio'}">{{ breadcrum.from }}</span>
+      <span> > </span>
+      <span class="font-semibold">{{ breadcrum.to }}</span>
+    </div>
+  </div>
+
+  <div class="overflow-y-auto" *ngIf="title == 'Panel administrativo'">
+    <div class="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 w-full gap-5 pr-3" [ngStyle]="{'max-height': max_height_menu+'px'}">
+      <ng-container *ngFor="let item of menu">
+        <div *ngIf="item.title == 'Descargar libros'" class="flex px-3 flex-col items-center gap-3 justify-center selectionMenu" (click)="downloadBooks()">
+          <div class="flex w-[100px] h-[100px] items-center justify-center rounded-full bg-[#FFC857]">
+            <img class="object-contain w-[80%] h-[80%]" [src]="item.image" alt="">
+          </div>
+          <span class="text-xl font-semibold text-[#FFC857] text-center"> {{ item.title }} </span>
+          <span class="text-white text-center"> {{ item.description }} </span>
+        </div>
+        <div *ngIf="item.title != 'Descargar libros'" class="flex px-3 flex-col items-center gap-3 justify-center selectionMenu" (click)="selectOptionMenu(item.title)">
+          <div class="flex w-[100px] h-[100px] items-center justify-center rounded-full bg-[#FFC857]">
+            <img class="object-contain w-[80%] h-[80%]" [src]="item.image" alt="">
+          </div>
+          <span class="text-xl font-semibold text-[#FFC857] text-center"> {{ item.title }} </span>
+          <span class="text-white text-center"> {{ item.description }} </span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <ng-container *ngIf="title != 'Panel administrativo'">
+    <hr style="width: 100%; margin: 5px 0px; opacity: 0.35;">
+    <app-managment-books [max_height]="max_height"
+      class="flex justify-center items-center w-full" *ngIf="title == 'Agregar libro' || title == 'Actualizar libro' || title == 'Eliminar libro'"
+      [type]="title == 'Agregar libro' ? 'new' : title == 'Actualizar libro' ? 'edit' : 'delete'"
+      ></app-managment-books>
+    <div class="flex justify-center items-center w-full" *ngIf="title == 'Descargar libros'"></div>
+      <app-managment-categories [max_height]="max_height"
+      class="flex justify-center items-center w-full" *ngIf="title == 'Agregar categoría' || title == 'Gestión de categorías'"
+      [type]="title == 'Agregar categoría' ? 'new' : 'managment'"
+      ></app-managment-categories>
+    <app-receive-books class="flex justify-center items-center w-full" *ngIf="title == 'Gestionar reserva'"></app-receive-books>
+  </ng-container>
+</div>

@@ -1,0 +1,11 @@
+//styles for drawer
+::ng-deep .ant-drawer-header-title{
+    flex-direction: row-reverse;
+    div{
+        font-size: 20px;
+    }
+}
+
+::ng-deep .ant-drawer-close{
+    margin-right: 0px;
+}

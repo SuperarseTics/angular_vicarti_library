@@ -1,0 +1,35 @@
+
+<div class="flex flex-col gap-2 lg:w-[68%] md:w-[75%] sm:w-[90%] w-full p-5 rounded-lg bg-white overflow-y-auto">
+  <div class="flex flex-col gap-2 pr-5 pb-5">
+    <span class="text-2xl font-medium w-full text-center">Gestionar reserva</span>
+    <div class="flex flex-col">
+      <span>Seleccionar Reserva</span>
+      <input [(ngModel)]="reservation_code" nz-input class="rounded-lg" placeholder="Ingresa el código de la reserva" type="text"/>
+    </div>
+    <div (click)="search()" class="rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer expand w-full text-center text-white">
+      <span *ngIf="!loadingSearch">Buscar</span>
+      <span *ngIf="loadingSearch">Buscando.. <span nz-icon [nzType]="'loading'"></span></span>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 grid-cols-1 gap-3" *ngIf="data">
+    <ng-container *ngFor="let item of keysData">
+      <div class="flex w-full items-center gap-1" *ngIf="data[item.key]">
+        <span class="font-semibold"> {{ item.title }}: </span>
+        <span> {{ data[item.key] }} </span>
+      </div>
+    </ng-container>
+
+    <div *ngIf="data.delivery_date == '-'" (click)="delivery()" class="md:col-span-2 col-span-1 rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer expand w-full text-center text-white">
+      <span *ngIf="!loadingDelivery">Entregar</span>
+      <span *ngIf="loadingDelivery">Entregando.. <span nz-icon [nzType]="'loading'"></span></span>
+    </div>
+
+    <div *ngIf="data.delivery_date != '-' && data.giveback_date == '-'" (click)="gveBack()" class="md:col-span-2 col-span-1 rounded-lg py-2 px-4 bg-[#0891B2] cursor-pointer expand w-full text-center text-white">
+      <span *ngIf="!loadingGiveBack">Devolver</span>
+      <span *ngIf="loadingGiveBack">Devolviendo.. <span nz-icon [nzType]="'loading'"></span></span>
+    </div>
+  </div>
+</div>
+
+<!-- {{ data | json }} -->

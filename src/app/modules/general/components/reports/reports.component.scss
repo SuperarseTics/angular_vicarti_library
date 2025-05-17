@@ -1,0 +1,16 @@
+.cardStyle {
+  height: 150px;
+  border-radius: 12px;
+  border: 1px solid var(--neutral-5, #D9D9D9);
+}
+
+.cardStyleChart {
+  border-radius: 12px;
+  border: 1px solid var(--neutral-5, #D9D9D9);
+}
+
+.maxHeigthNone {
+  @media (max-width: 768px) {
+    max-height: none!important;
+  }
+}
